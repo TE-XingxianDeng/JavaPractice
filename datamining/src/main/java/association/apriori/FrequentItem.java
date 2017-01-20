@@ -5,11 +5,17 @@ package association.apriori;
  * @version 1.00 1/20/2017
  */
 public class FrequentItem implements Comparable<FrequentItem> {
-    // 频繁项集的集合ID
+    /**
+     * id of frequent item set
+     */
     private String[] idArray;
-    // 频繁项集的支持度计数
+    /**
+     * support count of frequent item set
+     */
     private int count;
-    //频繁项集的长度，1项集或是2项集，亦或是3项集
+    /**
+     * length of frequent item set
+     */
     private int length;
 
     public FrequentItem(String[] idArray, int count) {
