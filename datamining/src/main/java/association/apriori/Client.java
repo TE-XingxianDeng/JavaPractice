@@ -1,4 +1,4 @@
-package associationanalysis.datamining_apriori;
+package association.apriori;
 
 /**
  * @author Dylan
@@ -6,7 +6,7 @@ package associationanalysis.datamining_apriori;
  */
 public class Client {
     public static void main(String[] args) {
-        String filePath = "C:\\Users\\lyq\\Desktop\\icon\\testInput.txt";
+        String filePath = Client.class.getResource("testInput.txt").getPath();
 
         AprioriTool tool = new AprioriTool(filePath, 2);
         tool.printAttachRule(0.7);

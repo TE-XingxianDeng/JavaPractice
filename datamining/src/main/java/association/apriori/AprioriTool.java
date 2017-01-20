@@ -1,4 +1,4 @@
-package associationanalysis.datamining_apriori;
+package association.apriori;
 
 import java.io.BufferedReader;
 import java.io.File;

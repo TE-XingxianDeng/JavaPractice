@@ -1,4 +1,4 @@
-package associationanalysis.datamining_apriori;
+package association.apriori;
 
 /**
  * @author Dylan
