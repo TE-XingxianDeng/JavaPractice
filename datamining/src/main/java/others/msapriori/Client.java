@@ -10,9 +10,9 @@ public class Client {
         //是否是事务型数据
         boolean isTransaction;
         //测试数据文件地址
-        String filePath = "C:\\Users\\lyq\\Desktop\\icon\\input.txt";
+        String filePath = Client.class.getResource("input.txt").getPath();
         //关系表型数据文件地址
-        String tableFilePath = "C:\\Users\\lyq\\Desktop\\icon\\input2.txt";
+        String tableFilePath = Client.class.getResource("input2.txt").getPath();
         //最小支持度阈值
         double minSup;
         // 最小置信度率

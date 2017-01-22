@@ -8,7 +8,7 @@ package others.gamaze;
 public class Client {
     public static void main(String[] args) {
         //迷宫地图文件数据地址
-        String filePath = "C:\\Users\\lyq\\Desktop\\icon\\mapData.txt";
+        String filePath = Client.class.getResource("mapData.txt").getPath();
         //初始个体数量
         int initSetsNum = 4;
 

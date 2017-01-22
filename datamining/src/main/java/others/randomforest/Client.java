@@ -9,7 +9,7 @@ import java.text.MessageFormat;
  */
 public class Client {
     public static void main(String[] args) {
-        String filePath = "C:\\Users\\lyq\\Desktop\\icon\\input.txt";
+        String filePath = Client.class.getResource("input.txt").getPath();
         String queryStr = "Age=Youth,Income=Low,Student=No,CreditRating=Fair";
         String resultClassType = "";
         // 决策树的样本占总数的占比率

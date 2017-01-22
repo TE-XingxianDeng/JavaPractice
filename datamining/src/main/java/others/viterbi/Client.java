@@ -17,8 +17,8 @@ public class Client {
         double[] initStatePro;
         ViterbiTool tool;
 
-        stmFilePath = "C:\\Users\\lyq\\Desktop\\icon\\stmatrix.txt";
-        cfFilePath = "C:\\Users\\lyq\\Desktop\\icon\\humidity-matrix.txt";
+        stmFilePath = Client.class.getResource("stmatrix.txt").getPath();
+        cfFilePath = Client.class.getResource("humidity-matrix.txt").getPath();
 
         initStatePro = new double[]{0.63, 0.17, 0.20};
         observeStates = new String[]{"Dry", "Damp", "Soggy"};

@@ -7,7 +7,7 @@ package others.tan;
  */
 public class Client {
     public static void main(String[] args) {
-        String filePath = "C:\\Users\\lyq\\Desktop\\icon\\input.txt";
+        String filePath = Client.class.getResource("input.txt").getPath();
         // 条件查询语句
         String queryStr;
         // 分类结果概率1
