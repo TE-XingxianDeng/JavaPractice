@@ -5,8 +5,21 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.List;
 
 public class FileUtil {
+    public static void scanDir(File dir, List<File> receiver) {
+        File[] subFiles = dir.listFiles();
+        for (int i = 0; i < subFiles.length; i++) {
+            File subFile = subFiles[i];
+            if (subFile.isDirectory()) {
+                scanDir(subFile, receiver);
+            } else {
+                receiver.add(subFile);
+            }
+        }
+    }
+
     public static void convertEncoding(final File file, final Charset origin, final Charset target) throws IOException {
         File tmpFile = new File(System.getProperty("java.io.tmpdir"), "tmp");
 
