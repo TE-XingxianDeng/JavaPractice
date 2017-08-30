@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,33 +15,32 @@ import java.util.Map;
  * @version 1.00 1/19/2017
  */
 public class MavenJarInstaller {
-    private static final String BASEDIR = "/home/dylan/.gradle/caches/modules-2/files-2.1";
     private static final int BSIZE = 1024;
 
     public static void main(String[] args) {
-        installMaven();
+        String userHomeStr = System.getProperty("user.home");
+        String gradleJarFileDirStr = String.join(File.separator, userHomeStr, ".gradle", "caches", "modules-2", "files-2.1");
+        String mavenJarFileDirStr = String.join(File.separator, userHomeStr, ".m2", "repository");
+        installMaven(gradleJarFileDirStr, mavenJarFileDirStr);
     }
 
-    public static void installMaven() {
+    public static void installMaven(String src, String dest) {
         LinkedList<File> receiver = new LinkedList<>();
-        FileUtil.scanDir(new File(BASEDIR), receiver);
+        FileUtil.scanDir(new File(src), receiver);
         HashMap<File, File> newPathsMap = new HashMap<>(receiver.size());
         for (File file : receiver) {
-            String[] pathArray = file.getAbsolutePath().split("/");
-            ArrayList<String> newPathSagement = new ArrayList<>(4);
-            String newPackagePath = pathArray[7].replaceAll("\\.", "/");
-            newPathSagement.add(newPackagePath);
-            newPathSagement.add(pathArray[8]);
-            newPathSagement.add(pathArray[9]);
-            newPathSagement.add(pathArray[11]);
-            StringBuilder newPathBuilder = new StringBuilder("/home/dylan/.m2/repository");
-            newPathBuilder.append("/");
-            for (String sage : newPathSagement) {
-                newPathBuilder.append(sage);
-                newPathBuilder.append("/");
-            }
-            newPathsMap.put(file, new File(newPathBuilder.toString()));
+            String relativePath = file.getAbsolutePath().replace(src, "");
+            String[] pathArray = relativePath.split("\\" + File.separator);
+            String[] newPathSegment = new String[4];
+            String newPackagePath = pathArray[1].replaceAll("\\.", "\\" + File.separator);
+            newPathSegment[0] = newPackagePath;
+            newPathSegment[1] = pathArray[2];
+            newPathSegment[2] = pathArray[3];
+            newPathSegment[3] = pathArray[5];
+            String newPathStr = String.join(File.separator, newPathSegment);
+            newPathsMap.put(file, new File(dest, newPathStr));
         }
+
         for (Map.Entry<File, File> entry : newPathsMap.entrySet()) {
             File sourceFile = entry.getKey();
             File destFile = entry.getValue();
@@ -50,10 +48,15 @@ public class MavenJarInstaller {
             if (!destDir.exists()) {
                 destDir.mkdirs();
             }
-            try {
-                copyFile(sourceFile, destFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (destFile.exists()) {
+                System.out.println("File: " + destFile + " exists, ignore");
+            } else {
+                try {
+                    System.out.println(sourceFile + " -> " + destFile);
+                    copyFile(sourceFile, destFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
