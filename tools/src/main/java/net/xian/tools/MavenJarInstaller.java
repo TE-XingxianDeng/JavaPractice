@@ -1,9 +1,6 @@
 package net.xian.tools;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
@@ -62,6 +59,13 @@ public class MavenJarInstaller {
     }
 
     private static void copyFile(File source, File dest) throws IOException {
+        if (!source.exists()) {
+            throw new FileNotFoundException("source file doesn't exists, path: " + source.getAbsolutePath());
+        }
+        if (dest.exists()) {
+            System.out.println("dest file exists: do nothing! path: " + dest.getAbsolutePath());
+            return;
+        }
         FileChannel
                 in = new FileInputStream(source).getChannel(),
                 out = new FileOutputStream(dest).getChannel();
@@ -71,5 +75,6 @@ public class MavenJarInstaller {
             out.write(buffer);
             buffer.clear();  // Prepare for reading
         }
+        System.out.println("finished copying, " + source.getPath() + "==>" + dest.getPath());
     }
 }
